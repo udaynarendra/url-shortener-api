@@ -20,6 +20,6 @@ const urlSchema=new mongoose.Schema({
         type:Number,
         default:0
     }
-})
+},{timestamps:true})
 const Url=mongoose.model('Url',urlSchema);
 export default Url;
