@@ -22,4 +22,4 @@ const urlSchema=new mongoose.Schema({
     }
 })
 const Url=mongoose.model('Url',urlSchema);
-export default url;
+export default Url;
