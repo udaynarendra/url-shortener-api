@@ -2,7 +2,7 @@ import Joi from 'joi';
 const urlValidation=Joi.object({
     url:Joi.string()
     .trim()
-    .url()
+    .uri()
     .required()
 })
 const registerValidation=Joi.object({
