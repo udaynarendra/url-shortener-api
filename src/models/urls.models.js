@@ -1,25 +1,32 @@
 import mongoose from "mongoose";
-const urlSchema=new mongoose.Schema({
-    user:{
-        type:mongoose.Schema.Types.ObjectId,
-        ref:'User',
-        required:true
+const originalUrl = {
+    type: String,
+    trim: true,
+    required: true
+};
+const shortCode = {
+    type: String,
+    trim: true,
+    unique: true,
+    required: true
+}
+const urlSchema = new mongoose.Schema({
+    user: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User',
+        required: true
     },
-    originalUrl:{
-        type:String,
-        trim:true,
-        required:true
-    },
-    shortCode:{
-            type:String,
-            trim:true,
-            unique:true,
-            required:true
-    },
-    clicks:{
-        type:Number,
-        default:0
+    url: [
+        {
+            originalUrl
+            , shortCode
+        }
+    ]
+    ,
+    clicks: {
+        type: Number,
+        default: 0
     }
-},{timestamps:true})
-const Url=mongoose.model('Url',urlSchema);
+}, { timestamps: true })
+const Url = mongoose.model('Url', urlSchema);
 export default Url;
