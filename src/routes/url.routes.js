@@ -1,0 +1,10 @@
+import express from 'express';
+import { createUrl, deleteUrl, getAllUrls, urlDetails, urlRedirect } from '../controllers/url.controller.js';
+import authMiddleware from '../middlewares/auth.middleware.js';
+const urlRouter=express.Router();
+urlRouter.post('/urls',authMiddleware,createUrl);
+urlRouter.get('/urls/all',authMiddleware,getAllUrls);
+urlRouter.get('/urls/:shortCode',authMiddleware,urlDetails);
+urlRouter.get('/:shortCode',authMiddleware,urlRedirect);
+urlRouter.delete('/urls/:shortCode',authMiddleware,deleteUrl);
+export default urlRouter;

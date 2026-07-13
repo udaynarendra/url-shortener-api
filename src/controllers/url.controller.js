@@ -33,8 +33,7 @@ return res.status(201).json(apiResponse(true,'Short Code created successfully',n
 });
 
 const urlRedirect=asyncHandler(async(req,res)=>{
-    // const userId=req.user.id;
-    const userId='6a5395f65364c79760b767e0'
+    const userId=req.user.id;
     const shortCode=req.params.shortCode;
     const user=await Url.findOne({user:userId});
     if(!user){
@@ -48,7 +47,7 @@ const urlRedirect=asyncHandler(async(req,res)=>{
 });
 
 const urlDetails=asyncHandler(async(req,res)=>{
-    const userId='6a5395f65364c79760b767e0';
+    const userId=req.user.id;
     const shortCode=req.params.shortCode;
     const user= await Url.findOne({user:userId});
     if(!user){
@@ -60,4 +59,31 @@ const urlDetails=asyncHandler(async(req,res)=>{
     }
     return res.status(200).json(apiResponse(true,'fetched successfully',existingShortCode));
 })
-export {createUrl,urlRedirect,urlDetails};
+const getAllUrls=asyncHandler(async(req,res)=>{
+    // const userId=req.user.id;
+    const userId='6a5395f65364c79760b767e0'
+    const user=await Url.findOne({user:userId});
+    if(!user){
+        throw new ApiError(404,'user not found');
+    }
+    if(user.url.length===0){
+        throw new ApiError(400,'No Urls');
+    }
+    return res.status(200).json(apiResponse(true,'fetched successfully',user.url));
+})
+
+const deleteUrl=asyncHandler(async(req,res)=>{
+    const shortCode=req.params.shortCode;
+    const userId=req.user.id;
+    const user=await Url.findOne({user:userId});
+    if(!user){
+        throw new ApiError(404,'user not found');
+    }
+    await Url.findOneAndUpdate({user:userId},{$pull:{
+        url:{shortCode}
+    }},{
+        returnDocument:"after"
+    })
+    return res.status(200).json(apiResponse(true,'deleted successfully'));
+})
+export {createUrl,urlRedirect,urlDetails,getAllUrls,deleteUrl};
